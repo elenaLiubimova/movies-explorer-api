@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { URL_PATTERN } = require('../config');
 
 const movieSchema = new mongoose.Schema({
   country: {
@@ -12,7 +13,7 @@ const movieSchema = new mongoose.Schema({
   },
 
   duration: {
-    type: Number,
+    type: String,
     required: true,
   },
 
@@ -44,6 +45,16 @@ const movieSchema = new mongoose.Schema({
     },
   },
 
+  nameRU: {
+    type: String,
+    required: true,
+  },
+
+  nameEN: {
+    type: String,
+    required: true,
+  },
+
   thumbnail: {
     type: String,
     required: true,
@@ -53,23 +64,14 @@ const movieSchema = new mongoose.Schema({
     },
   },
 
+  movieId: {
+    type: String,
+    required: true,
+  },
+
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
-    required: true,
-  },
-
-  movieId: {
-    required: true,
-  },
-
-  nameRU: {
-    type: String,
-    required: true,
-  },
-
-  nameEN: {
-    type: String,
     required: true,
   },
 });

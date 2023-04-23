@@ -1,7 +1,9 @@
 const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
+const { getUser, updateUser } = require('../controllers/users');
+const auth = require('../middlewares/auth');
 
-router.get('/me', getUser);
+router.get('/me', auth, getUser);
 
 router.patch(
   '/me',
@@ -11,6 +13,7 @@ router.patch(
       email: Joi.string().required(),
     }),
   }),
+  auth,
   updateUser,
 );
 

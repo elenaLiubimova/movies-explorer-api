@@ -1,3 +1,9 @@
-export const URL_PATTERN = /https?:\/\/\w{3}?\.[a-z0-9\-\._~:\/?#\[\]@!$&'()*\+,;=]{1,}/i;
-export const OK_STATUS = 200;
-export const CREATED_STATUS = 201;
+const URL_PATTERN = /https?:\/\/(www\.)?[-0-9a-zA-Z@:%._+~#=]{1,256}\.[-0-9a-zA-Z()]{1,6}\b([-0-9a-zA-Z()@:%_+.~#?&//=]*)/;
+const OK_STATUS = 200;
+const CREATED_STATUS = 201;
+
+module.exports = {
+  URL_PATTERN,
+  OK_STATUS,
+  CREATED_STATUS,
+};
