@@ -3,6 +3,7 @@ const Movie = require('../models/movie');
 const BadRequestError = require('../errors/BadRequestError');
 const { OK_STATUS, CREATED_STATUS } = require('../config');
 const NotFoundError = require('../errors/NotFoundError');
+const ForbiddenError = require('../errors/ForbiddenError');
 
 const getMovies = (req, res, next) => Movie.find({})
   .populate('owner')
