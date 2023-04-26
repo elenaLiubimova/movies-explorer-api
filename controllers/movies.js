@@ -5,7 +5,7 @@ const { OK_STATUS, CREATED_STATUS } = require('../config');
 const NotFoundError = require('../errors/NotFoundError');
 const ForbiddenError = require('../errors/ForbiddenError');
 
-const getMovies = (req, res, next) => Movie.find({})
+const getMovies = (req, res, next) => Movie.find({ owner: req.user._id.toString() })
   .populate('owner')
   .then((movies) => res.status(OK_STATUS).send(movies))
   .catch((error) => next(error));
@@ -55,13 +55,16 @@ const createMovie = (req, res, next) => {
 const deleteMovie = (req, res, next) => Movie.findById(req.params._id)
   .orFail(() => next(new NotFoundError('Фильм не найден')))
   .then((movie) => {
-    if (JSON.stringify(req.user._id) !== JSON.stringify(movie.owner)) {
+    if ((movie.owner).toString() !== req.user._id.toString()) {
       return next(new ForbiddenError('Отказано в доступе'));
     }
-    return movie.deleteOne();
-  })
-  .then((movie) => {
-    res.send({ movie });
+    return Movie.findByIdAndRemove(req.params._id)
+      .then((movieData) => {
+        res.send({ movieData });
+      })
+      .catch((err) => {
+        next(err);
+      });
   })
   .catch((error) => {
     if (error.name === 'CastError') {

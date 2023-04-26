@@ -90,6 +90,11 @@ const updateUser = (req, res, next) => {
       return res.status(OK_STATUS).send(user);
     })
     .catch((error) => {
+      if (error.code === 11000) {
+        return next(
+          new ConflictError('Пользователь с таким email уже зарегистрирован'),
+        );
+      }
       if (error.name === 'ValidationError') {
         return next(new BadRequestError('Переданы некорректные данные'));
       }
